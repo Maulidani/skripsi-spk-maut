@@ -62,6 +62,7 @@ class KwbController extends Controller
     {
         // dd($request->all());
         $request->validate([
+            'id' => 'required',
             'name' => 'required',
             'category_id' => 'required|numeric',
             'kecamatan' => 'required',

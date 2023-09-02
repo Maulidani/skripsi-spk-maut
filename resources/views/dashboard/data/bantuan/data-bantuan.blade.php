@@ -27,7 +27,7 @@
                     </div>
                     <div class="card-body">
 
-                        <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal"> Tambah Bantuan +</button>
+                        <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal"> Tambah +</button>
                         <br>
 
                         {{-- Message --}}
@@ -54,7 +54,8 @@
                             <thead>
                                 <tr>
                                     <th style="display: none;"></th>
-                                    <th>Nama</th>
+                                    <th>Nama Bantuan</th>
+                                    <th>Target KWB (kategori usaha)</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -63,9 +64,11 @@
                                 <tr>
                                     <td style="display: none;"></th>
                                     <td>{{ $i->name }}</td>
+                                    <td>{{ $i->category_name }}</td>
                                     <td>
                                         <a class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal2{{ $i->id }}">Detail</a>
-                                        <!-- <a class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal3{{ $i->id }}" >Edit</a> -->
+                                        <br>
+                                        <a class="btn btn-warning mb-1" data-toggle="modal" data-target="#scrollmodal3{{ $i->id }}" >Edit</a>
 
                                         <form method="POST" action="{{ url('delete-data-bantuan') }}">
                                         @csrf
@@ -81,7 +84,7 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
+                                                <h5 class="modal-title" id="scrollmodalLabel">Detail Bantuan</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -91,25 +94,23 @@
                                             @csrf
 
                                                 <div class="row form-group">
-                                                    <div class="col-6">
-                                                        <p>Nama</p>
-                                                        <input name="name" type="text" placeholder="Nama" class="form-control" value="{{ $i->name }}" required disabled>
+                                                    <div class="col-12">
+                                                        <p>Nama Bantuan</p>
+                                                        <input name="name" type="text" placeholder="" class="form-control" value="{{ $i->name }}" required disabled>
                                                     </div>
                                                 </div>
 
                                                 <div class="row form-group">
-                                                    <div class="col-6">
-                                                        <p>Kategori</p>
-                                                        <select name="category_id" type="text" class="form-control" required>
-                                                            <option value="{{ $i->category_id }}" disabled selected >{{ $i->category_name }}</option>
-                                                        </select>
+                                                    <div class="col-12">
+                                                        <p>Target KWB (kategori usaha)</p>
+                                                        <input name="category_id" type="text" placeholder="" class="form-control" value="{{ $i->category_name }}" required disabled>
                                                     </div>
                                                 </div>
 
                                                 <div class="row form-group">
-                                                    <div class="col-6">
-                                                        <p>Bantuan</p>
-                                                        <textarea name="detail" type="text" placeholder="Detail bantuan" class="form-control" required disabled>{{ $i->detail }}</textarea>
+                                                    <div class="col-12">
+                                                        <p>Deskripsi Bantuan</p>
+                                                        <textarea name="detail" type="text" placeholder="" class="form-control" required disabled>{{ $i->detail }}</textarea>
                                                     </div>
                                                 </div>
 
@@ -129,29 +130,30 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
+                                                <h5 class="modal-title" id="scrollmodalLabel">Edit Bantuan</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
 
-                                            <form action="" method="post" class="form-horizontal">
+                                            <form action="{{ route('edit-data-bantuan') }}" method="post" class="form-horizontal">
                                             <div class="modal-body">
                                             @csrf
+                                                <input type="hidden" name="id" value="{{ $i->id }}">
 
                                                 <div class="row form-group">
-                                                    <div class="col-6">
-                                                        <p>Nama</p>
-                                                        <input name="name" type="text" placeholder="Nama" class="form-control" value="{{ $i->name }}" required>
+                                                    <div class="col-12">
+                                                        <p>Nama Bantuan</p>
+                                                        <input name="name" type="text" placeholder="Masukkan nama bantuan" class="form-control" value="{{ $i->name }}" required>
                                                       
                                                     </div>
                                                 </div>
 
                                                 <div class="row form-group">
-                                                    <div class="col-6">
-                                                        <p>Kategori</p>
+                                                    <div class="col-12">
+                                                        <p>Target KWB (kategori usaha)</p>
                                                         <select name="category_id" type="text" class="form-control" required>
-                                                            <option value="{{ $i->category_id }}" disabled selected >{{ $i->category_name }}</option>
+                                                            <option value="{{ $i->category_id }}" selected >{{ $i->category_name }}</option>
                                                             @foreach ($category_kwb as $i)
                                                             <option value="{{ $i->id }}">{{ $i->name }}</option>
                                                             @endforeach
@@ -160,9 +162,9 @@
                                                 </div>
 
                                                 <div class="row form-group">
-                                                    <div class="col-6">
-                                                        <p>Bantuan</p>
-                                                        <textarea name="detail" type="text" placeholder="Detail bantuan" class="form-control" required>{{ $i->detail }}</textarea>
+                                                    <div class="col-12">
+                                                        <p>Deskripsi Bantuan</p>
+                                                        <textarea name="detail" type="text" placeholder="Masukkan deskripsi bantuan" class="form-control" required>{{ $i->detail }}</textarea>
                                                     </div>
                                                 </div>
 
@@ -188,7 +190,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
+                                <h5 class="modal-title" id="scrollmodalLabel">Tambah Bantuan</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -198,17 +200,17 @@
                                 @csrf
 
                                     <div class="row form-group">
-                                        <div class="col-6">
-                                            <p>Nama</p>
-                                            <input name="name" type="text" placeholder="Nama" class="form-control" required>
+                                        <div class="col-12">
+                                            <p>Nama Bantuan</p>
+                                            <input name="name" type="text" placeholder="Masukkan nama bantuan" class="form-control" required>
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col-6">
-                                            <p>Kategori</p>
+                                        <div class="col-12">
+                                            <p>Target KWB (kategori usaha)</p>
                                             <select name="category_id" type="text" class="form-control" required>
-                                                <option value="" disabled selected >Kategori</option>
+                                                <option value="" disabled selected >Pilih Target KWB (kategori usaha)</option>
                                                 @foreach ($category_kwb as $i)
                                                 <option value="{{ $i->id }}">{{ $i->name }}</option>
                                                 @endforeach
@@ -217,9 +219,9 @@
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col-6">
-                                            <p>Bantuan</p>
-                                            <textarea name="detail" type="text" placeholder="Detail bantuan" class="form-control" required></textarea>
+                                        <div class="col-12">
+                                            <p>Deskripsi Bantuan</p>
+                                            <textarea name="detail" type="text" placeholder="Masukkan deskripsi bantuan" class="form-control" required></textarea>
                                         </div>
                                     </div>
 

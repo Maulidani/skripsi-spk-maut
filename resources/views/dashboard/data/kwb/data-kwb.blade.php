@@ -23,11 +23,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">KWB</strong>
+                        <strong class="card-title">KWB (Kelompok Wirausaha Bersama)</strong>
                     </div>
                     <div class="card-body">
 
-                        <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal"> Tambah KWB +</button>
+                        <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal"> Tambah +</button>
                         <br>
 
                         {{-- Message --}}
@@ -54,9 +54,9 @@
                             <thead>
                                 <tr>
                                     <th style="display: none;"></th>
-                                    <th>Nama</th>
+                                    <th>Nama KWB</th>
                                     <!-- <th>Kecamatan</th> -->
-                                    <th>Kategori</th>
+                                    <th>Kategori KWB</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -70,7 +70,8 @@
                                     <td>
 
                                         <a class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal2{{ $i->id }}">Detail</a>
-                                        <!-- <a class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal3{{ $i->id }}" >Edit</a> -->
+                                        <br>
+                                        <a class="btn btn-warning mb-1" data-toggle="modal" data-target="#scrollmodal3{{ $i->id }}" >Edit</a>
 
                                         <form method="POST" action="{{ url('delete-data-kwb') }}">
                                         @csrf
@@ -86,7 +87,7 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
+                                                <h5 class="modal-title" id="scrollmodalLabel">Detail Data KWB</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -97,8 +98,8 @@
                                                 @csrf
                                                     <div class="row form-group">
                                                         <div class="col-6">
-                                                            <p>Nama</p>
-                                                            <input  name="name" type="text" placeholder="Nama" class="form-control" value="{{ $i->name}}" required disabled>
+                                                            <p>Nama KWB</p>
+                                                            <input  name="name" type="text" placeholder="" class="form-control" value="{{ $i->name }}" required disabled>
                                                         </div>
                                                         <div class="col-6">
                                                             <p>Nama Penanggung Jawab</p>
@@ -108,38 +109,29 @@
 
                                                     <div class="row form-group">
                                                         <div class="col-6">
-                                                            <p>Kategori</p>
-                                                            <select name="category_id" type="text" class="form-control" required disabled>
-                                                                <option value="{{ $i->category_id }}" disabled selected >{{ $i->category_name }}</option>
-
-                                                            </select>
+                                                            <p>Kategori Usaha</p>
+                                                            <input  name="category_id" type="text" placeholder="" class="form-control" value="{{ $i->category_name }}" required disabled>
                                                         </div>
                                                         <div class="col-6">
                                                             <p>Jumlah Anggota</p>
-                                                            <input name="member" type="text" placeholder="Anggota" class="form-control" value="{{ $i->member }}" required disabled>
+                                                            <input name="member" type="text" placeholder="" class="form-control" value="{{ $i->member }}" required disabled>
                                                         </div>
                                                     </div>
 
                                                     <div class="row form-group">
                                                         <div class="col-6">
-                                                            <p>Kecamatan dan Kelurahan</p>
-                                                            <input name="kecamatan" type="text" placeholder="Kecamatan" class="form-control" value="{{ $i->kecamatan }}" required disabled>
-                                                            <input name="kelurahan" type="text" placeholder="Kelurahan" class="form-control" value="{{ $i->kelurahan }}" required disabled>
-                                     
-                                                            <!-- <select name="kecamatan" type="text" class="form-control"  required disabled>
-                                                                <option value="{{ $i->kecamatan }}" disabled selected >{{ $i->kecamatan }}</option>
-
-                                                            </select>
-                                                            <select name="kelurahan" type="text" class="form-control"  required disabled>
-                                                                 <option value="{{ $i->kelurahan }}" disabled selected >{{ $i->kelurahan }}</option>
-
-                                                            </select> -->
+                                                            <p>Kecamatan Lokasi KWB</p>
+                                                            <input name="kecamatan" type="text" placeholder="" class="form-control" value="{{ $i->kecamatan }}" required disabled>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p>Kelurahan Lokasi KWB</p>
+                                                            <input name="kelurahan" type="text" placeholder="" class="form-control" value="{{ $i->kelurahan }}" required disabled>
                                                         </div>
                                                     </div>
 
                                                     <div class="row form-group">
-                                                        <div class="col-6">
-                                                            <p>Alamat</p>
+                                                        <div class="col-12">
+                                                            <p>Alamat KWB</p>
                                                             <textarea name="address" type="text" placeholder="Alamat" class="form-control"  required disabled>{{ $i->address }} </textarea>
                                                         </div>
                                                     </div>
@@ -159,7 +151,7 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
+                                                <h5 class="modal-title" id="scrollmodalLabel">Edit Data KWB</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -168,26 +160,28 @@
                                             <form action="{{ route('edit-data-kwb') }}" method="post" class="form-horizontal">
                                                 <div class="modal-body">
                                                 @csrf
-                                                <input  name="id" type="text" placeholder="Nama" class="form-control" value="{{ $i->id }}" required disabled hidden>
+                                                    <input type="hidden" name="id" value="{{ $i->id }}">
 
                                                     <div class="row form-group">
                                                         <div class="col-6">
-                                                            <p>Nama</p>
-                                                            <input  name="name" type="text" placeholder="Nama" class="form-control" value="{{ $i->name }}" required >
+                                                            <p>Nama KWB</p>
+                                                            <input  name="name" type="text" placeholder="Masukkan nama KWB" class="form-control" value="{{ $i->name }}" required >
                                                         </div>
                                                         <div class="col-6">
                                                             <p>Nama Penanggung Jawab</p>
-                                                            <input  name="name_leader" type="text" placeholder="Nama" class="form-control" value="{{ $i->name_leader }}" required >
+                                                            <input  name="name_leader" type="text" placeholder="Masukkan nama penanggung jawab KWB" class="form-control" value="{{ $i->name_leader }}" required >
                                                         </div>
                                                     </div>
 
                                                     <div class="row form-group">
                                                         <div class="col-6">
-                                                            <p>Kategori</p>
+                                                            <p>Kategori Usaha</p>
                                                             <select name="category_id" type="text" class="form-control" required >
-                                                                <option value="{{ $i->category_id }}"  selected >{{ $i->category_name }}</option>
+                                                                <option value="{{ $i->category_id }}" selected >{{ $i->category_name }}</option>
                                                                 @foreach ($category_kwb as $i)
-                                                                <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                                                    @if ($i->id != 1)
+                                                                        <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                                                    @endif
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -197,18 +191,29 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">
+                                            <div class="row form-group">                                                
                                                 <div class="col-6">
-                                                    <p>Kecamatan dan Kelurahan</p>
-                                                    <input name="kecamatan" type="text" placeholder="Kecamatan" class="form-control" value="{{ $i->kecamatan }}" required>
-                                                    <input name="kelurahan" type="text" placeholder="Kelurahan" class="form-control" value="{{ $i->kelurahan }}" required>
+                                                    <p>Kecamatan Lokasi KWB</p>
+                                                    <select name="kecamatan" type="text" class="form-control" required>
+                                                        <option value="{{ $i->kecamatan }}" selected >{{ $i->kecamatan }}</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p>Kelurahan Lokasi KWB</p>
+                                                    <select name="kelurahan" type="text" class="form-control" required>
+                                                      <option value="{{ $i->kelurahan }}" selected >{{ $i->kelurahan }}</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
-                                                <div class="col-6">
-                                                    <p>Alamat</p>
-                                                    <textarea name="address" type="text" placeholder="Alamat" class="form-control" required>{{ $i->address }}</textarea>
+                                                <div class="col-12">
+                                                    <p>Alamat KWB</p>
+                                                    <textarea name="address" type="text" placeholder="Masukkan alamat KWB" class="form-control" required>{{ $i->address }}</textarea>
                                                 </div>
                                             </div>
                                                 </div>
@@ -228,12 +233,11 @@
                     </div>
                 </div>
 
-
                 <div class="modal fade" id="scrollmodal" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
+                                <h5 class="modal-title" id="scrollmodalLabel">Tambah Data KWB</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -245,53 +249,56 @@
 
                                     <div class="row form-group">
                                         <div class="col-6">
-                                            <p>Nama</p>
-                                            <input  name="name" type="text" placeholder="Nama" class="form-control" required>
+                                            <p>Nama KWB</p>
+                                            <input  name="name" type="text" placeholder="Masukkan nama KWB" class="form-control" required>
                                         </div>
                                         <div class="col-6">
                                             <p>Nama Penanggung Jawab</p>
-                                            <input  name="name_leader" type="text" placeholder="Nama" class="form-control" required>
+                                            <input  name="name_leader" type="text" placeholder="Masukkan nama penananggung jawab KWB" class="form-control" required>
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col-6">
-                                            <p>Kategori</p>
+                                            <p>Kategori Usaha</p>
                                             <select name="category_id" type="text" class="form-control" required>
-                                                <option value="" disabled selected >Kategori</option>
+                                                <option value="" disabled selected >Pilih kategori usaha</option>
                                                 @foreach ($category_kwb as $i)
-                                                <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                                    @if ($i->id != 1)
+                                                        <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                          </div>
                                         <div class="col-6">
                                             <p>Jumlah Anggota</p>
-                                            <input name="member" type="number" placeholder="Anggota" class="form-control" required>
+                                            <input name="member" type="number" placeholder="Masukkan jumlah anggota KWB" class="form-control" required>
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col-6">
-                                            <p>Kecamatan dan Kelurahan</p>
-                                            <input name="kecamatan" type="text" placeholder="Kecamatan" class="form-control" required>
-                                            <input name="kelurahan" type="text" placeholder="Kelurahan" class="form-control" required>
-                                            <!-- <select name="kecamatan" type="text" class="form-control" required>
-                                                <option value="" disabled selected >Kecamatan</option>
+                                            <p>Kecamatan Lokasi KWB</p>
+                                            <select name="kecamatan" type="text" class="form-control" required>
+                                                <option value="" disabled selected >Pilih kecamatan</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                             </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Kelurahan Lokasi KWB</p>
                                             <select name="kelurahan" type="text" class="form-control" required>
-                                                <option value="" disabled selected >Kelurahan</option>
+                                                <option value="" disabled selected >Pilih kelurahan</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
-                                            </select> -->
-                                          </div>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col-6">
-                                            <p>Alamat</p>
-                                            <textarea name="address" type="text" placeholder="Alamat" class="form-control" required></textarea>
+                                        <div class="col-12">
+                                            <p>Alamat KWB</p>
+                                            <textarea name="address" type="text" placeholder="Masukkan alamat KWB" class="form-control" required></textarea>
                                         </div>
                                     </div>
 

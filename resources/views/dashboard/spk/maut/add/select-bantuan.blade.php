@@ -31,10 +31,10 @@
                         @csrf
 
                             <div class="row form-group">
-                                <div class="col-6">
-                                    <p>Bantuan</p>
+                                <div class="col-12">
+                                    <p>Pilih Bantuan</p>
                                     <select name="bantuan_id" type="text" class="form-control" required>
-                                        <option value="" disabled selected >Bantuan</option>
+                                        <option value="" disabled selected >Pilih Bantuan</option>
 
                                         @foreach ($bantuan as $i)
                                         <option value="{{ $i->id }}">{{ $i->name }}</option>

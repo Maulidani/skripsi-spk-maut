@@ -34,7 +34,7 @@
                                 <tr>
                                     <th style="display: none;"></th>
                                     <th>Nama Bantuan</th>
-                                    <th>Pembuatan</th>
+                                    <th>Ditambahkan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,10 +45,16 @@
                                     <td>{{ $i->name_bantuan }}</td>
                                     <td>{{ $i->created_at }}</td>
                                     <td>
+                                        <form method="POST" action="{{ url('spk-maut-result-detail') }}">
+                                        @csrf
+                                            <input type="hidden" name="version_id" value="{{ $i->version }}" required>
+                                            <button type="submit" class="btn btn-info mb-1">Detail</button>
+                                        </form>
+
                                         <form method="POST" action="{{ url('print-maut-result') }}">
                                         @csrf
                                             <input type="hidden" name="version_id" value="{{ $i->version }}" required>
-                                            <button type="submit" class="btn btn-info mb-1">Cetak</button>
+                                            <button type="submit" class="btn btn-warning mb-1">Cetak</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -59,7 +65,7 @@
                     </div>
                 </div>
 
-
+               
             </div>
 
         </div>

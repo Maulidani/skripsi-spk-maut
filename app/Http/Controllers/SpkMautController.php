@@ -9,6 +9,7 @@ use App\Models\CategoryKwbs;
 use App\Models\Kwbs;
 use App\Models\Results;
 use App\Models\Users;
+use App\Models\Kriterias;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use PDF;
@@ -16,14 +17,59 @@ use PDF;
 class SpkMautController extends Controller
 {
 
+    public function indexCriteria()
+    {
+        $result = Kriterias::get();
+            
+        return view('dashboard.data.kriteria.data-kriteria', [
+            'result' => $result,
+        ]);
+    }
+
+    public function editCriteria(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'id' => 'required',
+            'bobot' => 'required',
+        ]);
+
+        $model = Kriterias::find($request->id);
+        $model->bobot = $request->bobot;
+        $model->save();
+
+        if($model) {
+            return redirect()->back()->with('message-add-kwb', 'Sukses edit KWB');
+
+        } else {
+            return redirect()->back()->with('message-add-kwb', 'terjadi kesalahan');
+        }
+
+    }
+
     public function index()
     {
         $result = Results::join('bantuans', 'bantuans.id', 'results.bantuan_id')
             ->join('kwbs', 'kwbs.id', 'results.kwb_id')
             ->select('results.rank', 'results.bantuan_id', 'results.version', 'results.created_at','bantuans.name as name_bantuan', 'kwbs.name as name_kwb')
             ->orderBy('results.created_at', 'desc')->get()->unique('version');
-
+            
         return view('dashboard.spk.maut.result.result-maut', [
+            'result' => $result,
+        ]);
+    }
+
+    public function resultDetail(Request $request)
+    {
+        
+        $versionId = $request->version_id;
+        $result = Results::join('bantuans', 'bantuans.id', 'results.bantuan_id')
+            ->join('kwbs', 'kwbs.id', 'results.kwb_id')
+            ->where('results.version', $versionId)
+            ->select('results.rank', 'results.score', 'kwbs.name' )
+            ->orderBy('results.rank', 'asc')->get();
+
+        return view('dashboard.spk.maut.result.result-maut-detail', [
             'result' => $result,
         ]);
     }
@@ -40,16 +86,43 @@ class SpkMautController extends Controller
         }
 
         if($unChecked) {
-            $kwb = Kwbs::join('category_kwbs','category_kwbs.id', 'kwbs.category_id')
+
+            $getCategoryId = Bantuans::where('id',$request->bantuan_id)->first();   
+            // dd($getCategoryId->category_id);  
+
+            if($getCategoryId->category_id == 1) {
+
+                $kwb = Kwbs::join('category_kwbs','category_kwbs.id', 'kwbs.category_id')
                 ->join('bantuans', 'bantuans.category_id', 'kwbs.category_id')
-                ->where('bantuans.id', $request->bantuan_id)
-                ->select('kwbs.*', 'category_kwbs.name as category_name')
+                // ->where('bantuans.id', $request->bantuan_id)
+                ->select('kwbs.*', 'bantuans.detail as bantuan_detail' , 'category_kwbs.name as category_name')
                 ->orderBy('kwbs.created_at', 'desc')->get();
 
-            return view('dashboard.spk.maut.add.add-maut', [
-                'kwb' => $kwb,
-                'bantuan' => $request->bantuan_id,
-            ]);
+            // dd($kwb);  
+
+                return view('dashboard.spk.maut.add.add-maut', [
+                    'kwb' => $kwb,
+                    'bantuan' => 1,
+                ]);
+
+            } else {
+
+                $kwb = Kwbs::join('category_kwbs','category_kwbs.id', 'kwbs.category_id')
+                    ->join('bantuans', 'bantuans.category_id', 'kwbs.category_id')
+                    ->where('bantuans.id', $request->bantuan_id)
+                    // ->where('kwbs.id', $getCategoryId->category_id )
+                    ->select('kwbs.*', 'bantuans.detail as bantuan_detail' , 'category_kwbs.name as category_name')
+                    ->orderBy('kwbs.created_at', 'desc')->get();
+
+            // dd($kwb);  
+
+                return view('dashboard.spk.maut.add.add-maut', [
+                    'kwb' => $kwb,
+                    'bantuan' => $request->bantuan_id,
+                ]);
+                
+            }
+
         } else {
             return redirect()->back()->with('message-select-bantuan', 'Tidak ada kwb yang sesuai');
 
@@ -150,10 +223,10 @@ class SpkMautController extends Controller
                         $result[] = [
                             'kwb_id' => $id,
                             'criteria' => [
-                                'bantuan' => $filteredBantuan,
-                                'secretariat' => $filteredSecretariat,
-                                'structural' => $filteredStructural,
-                                'skill' => $filteredSkill,
+                                'Bantuan' => $filteredBantuan,
+                                'Secretariat' => $filteredSecretariat,
+                                'Structural' => $filteredStructural,
+                                'Skill' => $filteredSkill,
                             ],
                         ];
                     }
@@ -161,12 +234,23 @@ class SpkMautController extends Controller
                     // Printing the result
                     // dd($result);
 
-                    $weights = [
-                        'bantuan' => 3,
-                        'secretariat' => 7,
-                        'structural' => 5,
-                        'skill' => 9,
-                    ];
+
+                    $weightsData = Kriterias::get();
+
+                    // Initialize an empty array to store the structured data
+                    $weights = [];
+
+                    // Iterate through the retrieved data and structure it as an associative array
+                    foreach ($weightsData as $weight) {
+                        $weights[$weight->name] = $weight->bobot;
+                    }
+
+                    // $weights = [
+                    //     'bantuan' => 3,
+                    //     'secretariat' => 7,
+                    //     'structural' => 5,
+                    //     'skill' => 9,
+                    // ];
 
                     $resultData = $this->calculateRanking($result, $weights);
                     $ranking = $resultData['ranking'];
@@ -188,6 +272,7 @@ class SpkMautController extends Controller
                         $add_result = new Results;
                         $add_result->bantuan_id = $request->bantuan_id;
                         $add_result->kwb_id = $kwb_id['shopId'];
+                        $add_result->score = $kwb_id['score'];
                         $add_result->rank = $rank;
                         $add_result->version = $uniqueText;
                         $add_result->save();
@@ -405,7 +490,7 @@ class SpkMautController extends Controller
         $result = Results::join('bantuans', 'bantuans.id', 'results.bantuan_id')
             ->join('kwbs', 'kwbs.id', 'results.kwb_id')
             ->where('results.version', $versionId)
-            ->select('results.rank', 'results.created_at', 'bantuans.name as name_bantuan', 'kwbs.name as name_kwb')
+            ->select('results.rank', 'results.score', 'results.created_at', 'bantuans.name as name_bantuan', 'kwbs.name as name_kwb')
             ->orderBy('results.rank', 'asc')->get();
 
         // dd($request->version_id);

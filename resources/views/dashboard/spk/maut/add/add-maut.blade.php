@@ -37,8 +37,10 @@
                                     <!-- <input type="text" placeholder="Pilih KWB" class="form-control"> -->
                                     <!-- <button type="submit" class="btn btn-info mb-1" data-toggle="modal" data-target="#scrollmodal" form="category_selected"> Pilih KWB </button> -->
                                 <!-- </div> -->
-                                <div class="col-6">
-                                    <!-- <p>Details</p> -->
+                                <div class="col-12">
+                                    <p>Detail Bantuan</p>
+                                    <p style="color:black;">{{ $bantuan == 1 ? "umum" : $kwb[0]->bantuan_detail }}</p>
+
                                     {{-- Message --}}
                                     @if(session()->has('message-add-checked'))
 
@@ -101,8 +103,8 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="scrollmodalLabel">Scrolling Long Content Modal</h5>
-                                <p>{{ $kwb[0]->category_name }}</p>
+                                <h5 class="modal-title" id="scrollmodalLabel">Pilih KWB</h5>
+                                <p>Kategori Bantuan {{ $bantuan == 1 ? "Umum" : $kwb[0]->category_name }}</p>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -112,12 +114,12 @@
                                     <thead>
                                         <tr>
                                             <th style="display: none;"></th>
-                                            <th>Nama</th>
-                                            <th>Bantuan</th>
-                                            <th>Sekret</th>
-                                            <th>Struktural</th>
-                                            <th>Skill</th>
-                                            <th>Pilih</th>
+                                            <th style="width: 1000pt;">Nama KWB</th>
+                                            <th style="font-size: 12px;"> Bantuan </th>
+                                            <th style="font-size: 12px;">Sekretariat</th>
+                                            <th style="font-size: 12px;">Struktural</th>
+                                            <th style="font-size: 12px;">Skill / Keahlian</th>
+                                            <th style="font-size: 12px;">Pilih</th>
                                         </tr>
                                     </thead>
                                     <tbody>

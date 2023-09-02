@@ -59,7 +59,9 @@
                     <li>
                         <a href="{{ route('data-bantuan') }}"> <i class="menu-icon fa fa-circle"></i>Bantuan </a>
                     </li>
-
+                    <li>
+                        <a href="{{ route('data-kriteria') }}"> <i class="menu-icon fa fa-circle"></i>Kriteria dan Bobot</a>
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

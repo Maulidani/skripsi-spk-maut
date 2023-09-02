@@ -29,6 +29,7 @@ Route::get('spk-maut-add', [App\Http\Controllers\SpkMautController::class, 'kwb'
 Route::post('spk-maut-checked-kwb', [App\Http\Controllers\SpkMautController::class, 'checkedKwb'])->name('spk-maut-checked-kwb');
 
 Route::get('spk-maut-result', [App\Http\Controllers\SpkMautController::class, 'index'])->name('spk-maut-result');
+Route::post('spk-maut-result-detail', [App\Http\Controllers\SpkMautController::class, 'resultDetail'])->name('spk-maut-result-detail');
 
 Route::post('print-maut-result', [App\Http\Controllers\SpkMautController::class, 'print'])->name('print-maut-result');
 
@@ -39,7 +40,11 @@ Route::post('delete-data-kwb', [App\Http\Controllers\KwbController::class, 'dele
 
 Route::get('data-bantuan', [App\Http\Controllers\BantuanController::class, 'index'])->name('data-bantuan');
 Route::post('add-data-bantuan', [App\Http\Controllers\BantuanController::class, 'add'])->name('add-data-bantuan');
+Route::post('edit-data-bantuan', [App\Http\Controllers\BantuanController::class, 'edit'])->name('edit-data-bantuan');
 Route::post('delete-data-bantuan', [App\Http\Controllers\BantuanController::class, 'delete'])->name('delete-data-bantuan');
+
+Route::get('data-kriteria', [App\Http\Controllers\SpkMautController::class, 'indexCriteria'])->name('data-kriteria');
+Route::post('data-kriteria-edit', [App\Http\Controllers\SpkMautController::class, 'editCriteria'])->name('data-kriteria-edit');
 
 // Route::get('/spk-maut-add', [::class, 'lkhDetail'])->name('spk-maut-add');
 

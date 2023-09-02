@@ -50,6 +50,32 @@ class BantuanController extends Controller
 
     }
 
+
+    public function edit(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'category_id' => 'required|numeric',
+            'detail' => 'required',
+        ]);
+
+        $model = Bantuans::find($request->id);
+        $model->name = $request->name;
+        $model->category_id = $request->category_id;
+        $model->detail = $request->detail;
+        $model->save();
+
+        if($model) {
+            return redirect()->back()->with('message-add-kwb', 'Sukses edit KWB');
+
+        } else {
+            return redirect()->back()->with('message-add-kwb', 'terjadi kesalahan');
+        }
+
+    }
+    
     public function delete(Request $request)
     {
         $model = Bantuans::where(
