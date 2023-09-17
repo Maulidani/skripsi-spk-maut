@@ -92,11 +92,7 @@ class SpkMautController extends Controller
 
             if($getCategoryId->category_id == 1) {
 
-                $kwb = Kwbs::join('category_kwbs','category_kwbs.id', 'kwbs.category_id')
-                ->join('bantuans', 'bantuans.category_id', 'kwbs.category_id')
-                // ->where('bantuans.id', $request->bantuan_id)
-                ->select('kwbs.*', 'bantuans.detail as bantuan_detail' , 'category_kwbs.name as category_name')
-                ->orderBy('kwbs.created_at', 'desc')->get();
+                $kwb = Kwbs::orderBy('created_at', 'desc')->get();
 
             // dd($kwb);  
 

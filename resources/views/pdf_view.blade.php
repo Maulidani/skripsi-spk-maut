@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PDF View</title>
     <style>
         body {
             font-family: Arial, sans-serif;
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
             padding: 10px;
             border-bottom: 1px solid #ccc;
         }
 
         .logo {
-            width: 100px; /* Adjust the width as needed */
+            width: 80px; /* Adjust the width as needed */
             height: auto;
-            margin-right: 20px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .header-table td {
+            vertical-align: top;
         }
 
         .address {
@@ -40,19 +44,23 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div>
-            <img src="path_to_logo.png" alt="Logo" class="logo">
-        </div>
-        <div class="address">
-            Your Company Name<br>
-            Street Address<br>
-            City, State, Zip Code<br>
-            Phone: (123) 456-7890<br>
-            Email: info@example.com
-        </div>
-    </div>
-    <p>ini adalah bla bla bla {{ $bantuan_name }}</p>
+    <table class="header-table">
+        <tr>
+            <td>
+                <img src="images/logo_government_of_makassar.png" alt="Logo" class="logo">
+            </td>
+            <td class="address">
+                <br>
+                Dinas Perindustrian dan Perdagangan Kota Makassar<br>
+                Jl. Rappocini Raya No.129-225,<br>
+                Banta-Bantaeng, Kec. Rappocini,<br>
+                Kota Makassar, Sulawesi Selatan 90222<br>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <p>Berdasarkan hasil perhitungan SPK MAUT, berikut adalah rekomendasi alternatif dari yang paling direkomendasikan (rank 1) hingga yang kurang direkomendasikan (rank berikutnya) sesuai dengan preferensi dan prioritas yang telah ditetapkan.</p>
+    <h6>Bantuan : {{ $bantuan_name }}</h6>
     <h6>Dicetak : {{ $created_at }}</h6>
     <table>
         <thead>

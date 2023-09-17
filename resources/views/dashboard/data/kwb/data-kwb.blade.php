@@ -191,25 +191,32 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row form-group">                                                
+                                            <div class="row form-group">
                                                 <div class="col-6">
                                                     <p>Kecamatan Lokasi KWB</p>
-                                                    <select name="kecamatan" type="text" class="form-control" required>
-                                                        <option value="{{ $i->kecamatan }}" selected >{{ $i->kecamatan }}</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
+                                                    <select name="kecamatan" class="form-control" id="kecamatanDropdownEdit" required>
+                                                        <option value="{{ $i->kecamatan }}" >{{ $i->kecamatan }} Pilih Kecamatan</option>
+                                                        @foreach ($dataKecamatan as $kecamatan => $kelurahan)
+                                                            <option value="{{ $kecamatan }}" >
+                                                                {{ $kecamatan }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-6">
                                                     <p>Kelurahan Lokasi KWB</p>
-                                                    <select name="kelurahan" type="text" class="form-control" required>
-                                                      <option value="{{ $i->kelurahan }}" selected >{{ $i->kelurahan }}</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
+                                                    <select name="kelurahan" class="form-control" id="kelurahanDropdownEdit" required>
+                                                        <option value="{{ $i->kelurahan }}" >{{ $i->kelurahan }} Pilih Kelurahan</option>
+                                                        @if (isset($i->kecamatan))
+                                                            @foreach ($dataKecamatan[$i->kecamatan] as $kel)
+                                                                <option value="{{ $kel }}">
+                                                                    {{ $kel }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <div class="row form-group">
                                                 <div class="col-12">
                                                     <p>Alamat KWB</p>
@@ -279,21 +286,30 @@
                                     <div class="row form-group">
                                         <div class="col-6">
                                             <p>Kecamatan Lokasi KWB</p>
-                                            <select name="kecamatan" type="text" class="form-control" required>
-                                                <option value="" disabled selected >Pilih kecamatan</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
+                                            <select name="kecamatan" class="form-control" id="kecamatanDropdown" required>
+                                                <option value="">Pilih Kecamatan</option>
+                                                @foreach ($dataKecamatan as $kecamatan => $kelurahan)
+                                                    <option value="{{ $kecamatan }}" {{ $i->kecamatan == $kecamatan ? 'selected' : '' }}>
+                                                        {{ $kecamatan }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-6">
                                             <p>Kelurahan Lokasi KWB</p>
-                                            <select name="kelurahan" type="text" class="form-control" required>
-                                                <option value="" disabled selected >Pilih kelurahan</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
+                                            <select name="kelurahan" class="form-control" id="kelurahanDropdown" required>
+                                                <option value="">Pilih Kelurahan</option>
+                                                @if (isset($i->kecamatan))
+                                                    @foreach ($dataKecamatan[$i->kecamatan] as $kel)
+                                                        <option value="{{ $kel }}" {{ $i->kelurahan == $kel ? 'selected' : '' }}>
+                                                            {{ $kel }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
+
 
                                     <div class="row form-group">
                                         <div class="col-12">
@@ -319,4 +335,67 @@
     </div><!-- .animated -->
 </div><!-- .content -->
 
+
+<script>
+    // Get references to the kecamatan and kelurahan dropdowns
+    var kecamatanDropdown = document.getElementById('kecamatanDropdown');
+    var kelurahanDropdown = document.getElementById('kelurahanDropdown');
+
+    // Data for kelurahan options based on kecamatan
+    var kelurahanData = @json($dataKecamatan);
+
+    // Function to update the kelurahan dropdown options
+    function updateKelurahanDropdown(selectedKecamatan) {
+        kelurahanDropdown.innerHTML = '<option value="">Pilih Kelurahan</option>';
+        if (selectedKecamatan && kelurahanData[selectedKecamatan]) {
+            kelurahanData[selectedKecamatan].forEach(function (kel) {
+                var option = document.createElement('option');
+                option.value = kel;
+                option.text = kel;
+                kelurahanDropdown.appendChild(option);
+            });
+        }
+    }
+
+    // Initialize the kelurahan dropdown based on the initially selected kecamatan
+    updateKelurahanDropdown(kecamatanDropdown.value);
+
+    // Add event listener to kecamatan dropdown to update kelurahan dropdown
+    kecamatanDropdown.addEventListener('change', function () {
+        updateKelurahanDropdown(this.value);
+    });
+</script>
+
+<script>
+    // Get references to the kecamatan and kelurahan dropdowns in the edit modal
+    var kecamatanDropdownEdit = document.getElementById('kecamatanDropdownEdit');
+    var kelurahanDropdownEdit = document.getElementById('kelurahanDropdownEdit');
+
+    // Data for kelurahan options based on kecamatan
+    var kelurahanData = @json($dataKecamatan);
+
+    // Function to update the kelurahan dropdown options in the edit modal
+    function updateKelurahanDropdownEdit(selectedKecamatan) {
+        kelurahanDropdownEdit.innerHTML = '<option value="">Pilih Kelurahan</option>';
+        if (selectedKecamatan && kelurahanData[selectedKecamatan]) {
+            kelurahanData[selectedKecamatan].forEach(function (kel) {
+                var option = document.createElement('option');
+                option.value = kel;
+                option.text = kel;
+                kelurahanDropdownEdit.appendChild(option);
+            });
+        }
+    }
+
+    // Initialize the kelurahan dropdown in the edit modal based on the initially selected kecamatan
+    updateKelurahanDropdownEdit(kecamatanDropdownEdit.value);
+
+    // Add event listener to kecamatan dropdown in the edit modal to update kelurahan dropdown
+    kecamatanDropdownEdit.addEventListener('change', function () {
+        updateKelurahanDropdownEdit(this.value);
+    });
+</script>
+
 @endsection
+
+

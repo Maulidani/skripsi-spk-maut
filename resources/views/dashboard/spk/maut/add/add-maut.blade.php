@@ -39,7 +39,7 @@
                                 <!-- </div> -->
                                 <div class="col-12">
                                     <p>Detail Bantuan</p>
-                                    <p style="color:black;">{{ $bantuan == 1 ? "umum" : $kwb[0]->bantuan_detail }}</p>
+                                    <p style="color:black;">{{ $bantuan == 1 ? "Bantuan umum" : $kwb[0]->bantuan_detail }}</p>
 
                                     {{-- Message --}}
                                     @if(session()->has('message-add-checked'))
